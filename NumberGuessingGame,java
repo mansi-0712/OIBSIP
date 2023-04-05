@@ -1,0 +1,85 @@
+import java.util.Random;
+import javax.swing.JOptionPane;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+       
+        int min = 1;
+        int max = 100;
+        int maxAttempts = 5;
+        int pointsPerGuess = 10;
+        int score = 0;
+        boolean playAgain = true;
+        
+        // set up random number generator
+        Random random = new Random();
+        
+        // main game loop
+        while (playAgain) {
+            // generate random number
+            int randomNumber = random.nextInt(max - min + 1) + min;
+            
+            // display instructions and get user input
+            String message = "I'm thinking of a number between " + min + " and " + max + ".\nYou have " + maxAttempts + " attempts to guess it.";
+            int guess = 0;
+            int attempts = 0;
+            while (guess < min || guess > max) {
+                String input = JOptionPane.showInputDialog(null, message, "Guess the Number", JOptionPane.PLAIN_MESSAGE);
+                if (input == null) {
+                    // user clicked cancel or closed the window
+                    System.exit(0);
+                }
+                try {
+                    guess = Integer.parseInt(input);
+                } catch (NumberFormatException e) {
+                   
+                    guess = 0;
+                }
+                if (guess < min || guess > max) {
+                    
+                    JOptionPane.showMessageDialog(null, "Please enter a number between " + min + " and " + max + ".", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+            // check user's guess
+            while (guess != randomNumber && attempts < maxAttempts) {
+                attempts++;
+                if (guess < randomNumber) {
+                    JOptionPane.showMessageDialog(null, "Your guess is too low.", "Incorrect", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Your guess is too high.", "Incorrect", JOptionPane.WARNING_MESSAGE);
+                }
+                guess = 0;
+                while (guess < min || guess > max) {
+                    String input = JOptionPane.showInputDialog(null, "Guess again. You have " + (maxAttempts - attempts) + " attempts left.", "Guess the Number", JOptionPane.PLAIN_MESSAGE);
+                    if (input == null) {
+                        Ss
+                        System.exit(0);
+                    }
+                    try {
+                        guess = Integer.parseInt(input);
+                    } catch (NumberFormatException e) {
+                       
+                        guess = 0;
+                    }
+                    if (guess < min || guess > max) {
+                        // input was out of range
+                        JOptionPane.showMessageDialog(null, "Please enter a number between " + min + " and " + max + ".", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            
+            // display result and update score
+            if (guess == randomNumber) {
+                int points = (maxAttempts - attempts) * pointsPerGuess;
+                score += points;
+                JOptionPane.showMessageDialog(null, "Congratulations! You guessed the number in " + attempts + " attempts and earned " + points + " points.", "Correct", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Sorry, you ran out of attempts. The number was " + randomNumber + ".", "Incorrect", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            // ask if user wants to play again
+            int choice = JOptionPane.showConfirmDialog(null, "Your score is " + score + ".\nDo you want to play again?");
+}
+}
+}
